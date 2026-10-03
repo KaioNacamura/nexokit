@@ -1,0 +1,32 @@
+@startuml
+skinparam dpi 200
+skinparam defaultFontName DejaVu Sans
+skinparam shadowing false
+left to right direction
+
+actor Atendente
+
+rectangle NexoKit {
+  usecase "UC01\nGerenciar equipamentos" as UC01
+  usecase "UC02\nGerenciar alunos" as UC02
+  usecase "UC03\nRegistrar empréstimo" as UC03
+  usecase "UC04\nRegistrar devolução" as UC04
+  usecase UC05 as "UC05
+Consultar histórico
+  --
+  Ponto de extensão:
+  resultado apresentado"
+  usecase "UC06\nVisualizar painel" as UC06
+  usecase "UC07\nExportar empréstimos\npara CSV" as UC07
+  usecase "UC08\nUtilizar modo de\ndemonstração" as UC08
+}
+
+Atendente -- UC01
+Atendente -- UC02
+Atendente -- UC03
+Atendente -- UC04
+Atendente -- UC05
+Atendente -- UC06
+Atendente -- UC08
+UC07 .> UC05 : <<extend>>\n[atendente pede a exportação]
+@enduml

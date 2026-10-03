@@ -1,0 +1,70 @@
+@startuml
+skinparam dpi 200
+skinparam defaultFontName DejaVu Sans
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam nodesep 70
+skinparam ranksep 70
+skinparam note {
+  BackgroundColor #FFFFFF
+  BorderColor #555555
+}
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #555555
+  ArrowColor #333333
+}
+hide methods
+hide circle
+
+class Categoria {
+  nome : Texto
+}
+
+class Equipamento {
+  nome : Texto
+  patrimonio : Texto {único}
+  ativo : Booleano
+  /situacao : SituacaoEquipamento
+}
+
+class Aluno {
+  nome : Texto
+  ra : Texto {único}
+  curso : Texto
+  ativo : Booleano
+}
+
+class Emprestimo {
+  dataRetirada : Data
+  dataPrevista : Data
+  dataDevolucao : Data [0..1]
+  observacao : Texto [0..1]
+  /situacao : SituacaoEmprestimo
+}
+
+enum SituacaoEquipamento <<enumeration>> {
+  DISPONIVEL
+  EMPRESTADO
+  INATIVO
+}
+
+enum SituacaoEmprestimo <<enumeration>> {
+  EM_ANDAMENTO
+  ATRASADO
+  DEVOLVIDO
+}
+
+Categoria "1" -- "0..*" Equipamento : \nclassifica
+Equipamento "1" -- "0..*" Emprestimo : \né emprestado em
+Aluno "1" -- "0..*" Emprestimo : \nfaz
+
+Emprestimo -[hidden]- SituacaoEmprestimo
+SituacaoEmprestimo -[hidden]right- SituacaoEquipamento
+
+note bottom of Emprestimo
+  dataPrevista >= dataRetirada
+  Cada equipamento tem no máximo
+  um empréstimo sem dataDevolucao.
+end note
+@enduml
